@@ -1,5 +1,21 @@
 import "runtime"
+import "timely"
+
+param year
+
+print("Running policy using runtime version ", runtime.version)
+
+is_utc = rule {
+	all timely.zone as _, zone {
+		zone.data.name is "Coordinated Universal Time (UTC)"
+	}
+}
+
+is_2024 = rule {
+	timely.datetime.year == year
+}
 
 main = rule {
-    print(runtime.version)
+	is_utc and
+	is_2024
 }

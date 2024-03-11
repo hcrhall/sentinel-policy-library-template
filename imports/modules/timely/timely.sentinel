@@ -1,1 +1,22 @@
-// Sentinel module file for import
+import "time"
+import "timezone"
+
+func getDatetime(){
+    return time.now
+}
+
+datetime = getDatetime()
+zone = map filter timezone as _, tz {
+    tz.description is datetime.zone_string
+} as _, tz {
+    {
+        "data": tz,
+    }
+}
+
+func getMaintenanceDay(){
+    maintenance_days = ["Friday", "Saturday", "Sunday"]
+    return datetime.weekday_name in maintenance_days
+}
+
+isMaintenanceDay = getMaintenanceDay()

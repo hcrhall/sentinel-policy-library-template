@@ -1,5 +1,5 @@
 // The Sentinel CLI's configuration file can be used to control the behavior of the CLI during apply and test operations.
-// Reference: https://developer.hashicorp.com/sentinel/docs/configuration
+//  Documentation: https://developer.hashicorp.com/sentinel/docs/configuration
 
 // -------------------------------------------------------------
 // FEATURES
@@ -12,41 +12,24 @@ sentinel {
 }
 
 // -------------------------------------------------------------
-// PLUGINS
+// IMPORTS
 // -------------------------------------------------------------
 import "module" "timely" {
-    source = ""
+  source = "./imports/modules/timely/timely.sentinel"
 }
 
-// -------------------------------------------------------------
-// GLOBALS
-// -------------------------------------------------------------
-global "assert" {
-  value = {
-    rules = {
-      security_and_analysis = {
-        advanced_security = {
-          status = "enabled"
-        }
-        secret_scanning = {
-          status = "enabled"
-        }
-        secret_scanning_push_protection = {
-          status = "enabled"
-        }
-      }
-    }
-  }
+import "static" "timezone" {
+  source = "./imports/static/timezone/data.json"
+  format = "json"
 }
 
 // -------------------------------------------------------------
 // POLICIES
 // -------------------------------------------------------------
-policy "advanced_security_is_enabled" {
-  source            = "./policies/example.sentinel"
-  enforcement_level = "hard-mandatory"
+policy "example" {
+  source            = "./policies/example/example.sentinel"
+  enforcement_level = "advisory"
   params = {
-    block   = "security_and_analysis"
-    feature = "advanced_security"
+    year  = 2024
   }
 }
